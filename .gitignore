@@ -1,0 +1,11 @@
+
+.env
+
+# python files
+__pycache__/
+.venv
+
+Pipfile.lock
+
+# only for deployment
+app/package

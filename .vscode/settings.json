@@ -1,0 +1,30 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "pipenv-dev": {
+            //* .venvをプロジェクト内に作成する
+            "path": "pwsh",
+            "args": [
+                "-Command",
+                "pipenv",
+                "shell"
+            ],
+            "icon": "vm",
+            "overrideName": true,
+            "color": "terminal.ansiGreen",
+            "env": {
+                "PIPENV_VENV_IN_PROJECT": "true",
+            }
+        },
+    },
+    "terminal.integrated.defaultProfile.windows": "pipenv-dev",
+    "[python]": {
+        "files.insertFinalNewline": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff",
+    },
+    "python.analysis.extraPaths": [
+        ".venv/Lib/site-packages",
+        "app",
+        "app/package"
+    ]
+}
