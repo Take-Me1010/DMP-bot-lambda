@@ -10,3 +10,6 @@ Pipfile.lock
 # only for deployment
 app/package
 app.zip
+
+# response files
+registered_commands.json

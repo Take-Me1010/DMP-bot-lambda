@@ -4,6 +4,7 @@ ref: https://discord.com/developers/docs/interactions/application-commands#slash
 
 import os
 import sys
+import json
 
 import requests
 
@@ -49,7 +50,20 @@ def register():
         url, headers={"Authorization": f"Bot {BOT_TOKEN}"}, json=payload
     )
 
-    print(response.json())
+    with open("registered_commands.json", "w") as f:
+        json.dump(
+            {
+                "statusCode": response.status_code,
+                "body": response.json(),
+            },
+            f,
+            ensure_ascii=False,
+            indent=4,
+        )
+
+    print(
+        "Registered commands and saved the response to 'registered_commands.json' file."
+    )
 
 
 def remove(name: str):
