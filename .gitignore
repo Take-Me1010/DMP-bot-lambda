@@ -9,3 +9,4 @@ Pipfile.lock
 
 # only for deployment
 app/package
+app.zip
