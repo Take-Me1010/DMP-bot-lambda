@@ -1,3 +1,4 @@
+import typing as tp
 import json
 
 from discord_types import (
@@ -5,6 +6,7 @@ from discord_types import (
     Command,
     CommandHandler,
     DiscordCommands,
+    DiscordApplicationCommandOption,
 )
 from lambda_types import MyApiGatewayResponse
 
@@ -21,7 +23,9 @@ def toResponse(
     }
 
 
-def registerCommand(name: str, description: str, options: list = []):
+def registerCommand(
+    name: str, description: str, options: tp.List[DiscordApplicationCommandOption] = []
+):
     def decorator(func: CommandHandler):
         c = Command.New(func, name, description, options)
         DiscordCommands.register(c)

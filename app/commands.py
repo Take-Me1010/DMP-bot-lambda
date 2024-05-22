@@ -6,30 +6,50 @@
 import random
 
 from discord_types import (
-    DiscordCommandRequestBody,
-    DiscordCommandResponseBody,
-    DiscordResponseInteractionType,
+    DiscordCommandRequestBody as RequestBody,
+    DiscordCommandResponseBody as ResponseBody,
+    DiscordResponseInteractionType as InteractionType,
+    DiscordApplicationCommandOptionType as OptionType,
 )
 from helpers import registerCommand
 
 
 @registerCommand("coin", "コインを投げます。実行すると、表か裏が出ます。")
-def throw_coin(body: DiscordCommandRequestBody) -> DiscordCommandResponseBody:
+def throw_coin(body: RequestBody) -> ResponseBody:
     result = {0: "表", 1: "裏"}[random.randrange(2)]
 
     return {
-        "type": DiscordResponseInteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
+        "type": InteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
         "data": {"content": f"Result: {result}"},
     }
 
 
-# def randint(options: list[dict[str, int]]):
-#     result = random.randrange(
-#         int(options[0]["value"]),
-#         int(options[1]["value"]),
-#     )
+@registerCommand(
+    "randint",
+    "0 ~ num - 1 でランダムな整数を返します。",
+    options=[
+        {
+            "name": "num",
+            "description": "乱数の最大値",
+            "type": OptionType.INTEGER,
+            "required": True,
+        }
+    ],
+)
+def randint(body: RequestBody) -> ResponseBody:
+    num = body["data"]["options"][0]["value"]
+    if not isinstance(num, int):
+        return {
+            "type": InteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
+            "data": {"content": "Invalid value."},
+        }
 
-#     return result
+    result = random.randrange(num)
+
+    return {
+        "type": InteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
+        "data": {"content": f"Result: {result}"},
+    }
 
 
 # def pick_up(options: list[str], n=1):
