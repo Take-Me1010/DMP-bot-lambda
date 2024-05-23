@@ -17,6 +17,9 @@
         },
     },
     "terminal.integrated.defaultProfile.windows": "pipenv-dev",
+    "explorer.fileNesting.patterns": {
+        "Pipfile": "Pipfile.lock, pyproject.toml, requirements.txt, setup.cfg, .env",
+    },
     "[python]": {
         "files.insertFinalNewline": true,
         "editor.formatOnSave": true,
