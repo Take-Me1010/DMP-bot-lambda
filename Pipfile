@@ -8,6 +8,7 @@ pynacl = "*"
 
 [dev-packages]
 requests = "*"
+dmp-bot-lambda = {file = ".", editable = true}
 
 [requires]
 python_version = "3.8"
