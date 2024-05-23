@@ -4,10 +4,14 @@ import typing as tp
 
 class DiscordCommands:
     registered_commands: tp.List["Command"] = []
+    __unique_command_names: tp.Set[str] = set()
 
     @staticmethod
     def register(command: "Command"):
+        if command.name in DiscordCommands.__unique_command_names:
+            raise ValueError(f"Command name '{command.name}' is already registered.")
         DiscordCommands.registered_commands.append(command)
+        DiscordCommands.__unique_command_names.add(command.name)
 
     @staticmethod
     def get_commands():
@@ -144,7 +148,7 @@ class DiscordCommandRequestBodyDataOption(tp.TypedDict):
 class DiscordCommandRequestBodyData(tp.TypedDict):
     id: tp.Any
     name: str
-    options: tp.List[tp.Dict[str, tp.Any]]
+    options: tp.List[DiscordCommandRequestBodyDataOption]
 
 
 class DiscordCommandRequestBody(tp.TypedDict):
