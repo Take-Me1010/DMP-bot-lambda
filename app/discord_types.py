@@ -102,17 +102,51 @@ class DiscordApplicationCommandOptionChoice(tp.TypedDict):
     value: tp.Union[str, int, float]
 
 
+class _DiscordChannelType(int, Enum):
+    """
+    ref: https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+    """
+
+    GUILD_TEXT = 0  # a text channel within a server
+    DM = 1  # a direct message between users
+    GUILD_VOICE = 2  # a voice channel within a server
+    GROUP_DM = 3  # a direct message between multiple users
+    GUILD_CATEGORY = 4  # an organizational category that contains up to 50 channels
+    GUILD_ANNOUNCEMENT = 5  # a channel that users can follow and crosspost into their own server (formerly news channels)
+    ANNOUNCEMENT_THREAD = (
+        10  # a temporary sub-channel within a GUILD_ANNOUNCEMENT channel
+    )
+    PUBLIC_THREAD = (
+        11  # a temporary sub-channel within a GUILD_TEXT or GUILD_FORUM channel
+    )
+    PRIVATE_THREAD = 12  # a temporary sub-channel within a GUILD_TEXT channel that is only viewable by those invited and those with the MANAGE_THREADS permission
+    GUILD_STAGE_VOICE = 13  # a voice channel for hosting events with an audience
+    GUILD_DIRECTORY = 14  # the channel in a hub containing the listed servers
+    GUILD_FORUM = 15  # Channel that can only contain threads
+    GUILD_MEDIA = (
+        16  # Channel that can only contain threads, similar to GUILD_FORUM channels
+    )
+
+
 class _DiscordApplicationCommandOptionOptionals(tp.TypedDict, total=False):
     required: bool
     choices: tp.List[DiscordApplicationCommandOptionChoice]
     min_value: int
     max_value: int
+    max_length: int  # valid only for `type = STRING (3)`
+
+    channel_types: tp.List[_DiscordChannelType]
+
+    name_localizations: tp.Dict[str, str]
+    description_localizations: tp.Dict[str, str]
+
+    autocomplete: bool
 
 
 class DiscordApplicationCommandOption(_DiscordApplicationCommandOptionOptionals):
     """
-    https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
-    NOTE: 様々なオプションがあるが、ここでは一部のみ定義
+    ref: https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
+    NOTE: Required options must be listed before optional options.
     """
 
     type: DiscordApplicationCommandOptionType
