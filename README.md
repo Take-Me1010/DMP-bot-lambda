@@ -39,7 +39,7 @@ Pipenv使ってます。下記は windows 前提です。
 pipenv は `pip install pipenv` でインストールして、どうぞ。
 
 ```ps1
-$env:PIPENV_VENV_IN_PROJECT = 1; pipenv --python 3.8
+$env:PIPENV_VENV_IN_PROJECT = 1; pipenv --python 3.12
 pipenv install --dev
 pipenv run setup
 ```

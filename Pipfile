@@ -14,4 +14,4 @@ dmp-bot-lambda = {file = ".", editable = true}
 python_version = "3.12"
 
 [scripts]
-setup = "pwsh ./scripts/dev-install.ps1"
+
