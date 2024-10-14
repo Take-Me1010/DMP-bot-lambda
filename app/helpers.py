@@ -24,7 +24,9 @@ def toResponse(
 
 
 def registerCommand(
-    name: str, description: str, options: tp.List[DiscordApplicationCommandOption] = []
+    name: str,
+    description: str,
+    options: list[DiscordApplicationCommandOption] = [],
 ):
     """convert a function to a command and register it by calling `DiscordCommands.register( func )`
 

@@ -173,26 +173,30 @@ class DiscordResponseInteractionType(int, Enum):
     PREMIUM_REQUIRED = 10  # respond to an interaction with an upgrade button, only available for apps with monetization enabled
 
 
-class DiscordCommandRequestBodyDataOption(tp.TypedDict):
+class DiscordCommandRequestBodyDataOption[T](tp.TypedDict):
     type: DiscordApplicationCommandOptionType
     name: str
-    value: tp.Any  # NOTE: type depends on `type`. e.g. str, int, float
+    value: T  # NOTE: type depends on `type`. e.g. str, int, float
 
 
-class DiscordCommandRequestBodyData(tp.TypedDict):
+class DiscordCommandRequestBodyData[T: tuple[DiscordCommandRequestBodyDataOption, ...]](
+    tp.TypedDict
+):
     id: tp.Any
     name: str
-    options: tp.List[DiscordCommandRequestBodyDataOption]
+    options: T
 
 
-class DiscordCommandRequestBody(tp.TypedDict):
+class DiscordCommandRequestBody[T: tuple[DiscordCommandRequestBodyDataOption]](
+    tp.TypedDict
+):
     type: tp.Literal[
         DiscordRequestInteractionType.PING,
         DiscordRequestInteractionType.APPLICATION_COMMAND,
     ]
 
     # only for `APPLICATION_COMMAND`
-    data: DiscordCommandRequestBodyData
+    data: DiscordCommandRequestBodyData[T]
 
 
 class DiscordCommandResponseBody(tp.TypedDict):

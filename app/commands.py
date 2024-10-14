@@ -7,6 +7,7 @@ import random
 
 from discord_types import (
     DiscordCommandRequestBody as RequestBody,
+    DiscordCommandRequestBodyDataOption as BodyOption,
     DiscordCommandResponseBody as ResponseBody,
     DiscordResponseInteractionType as InteractionType,
     DiscordApplicationCommandOptionType as OptionType,
@@ -36,7 +37,9 @@ def throw_coin(body: RequestBody) -> ResponseBody:
         }
     ],
 )
-def randint(body: RequestBody) -> ResponseBody:
+def randint(
+    body: RequestBody[tuple[BodyOption[int]]],
+) -> ResponseBody:
     num = body["data"]["options"][0]["value"]
     if not isinstance(num, int):
         return {
@@ -63,10 +66,28 @@ def randint(body: RequestBody) -> ResponseBody:
 #     return picked
 
 
-# def shuffle(options: list[str]):
-#     _options = options.copy()
-#     random.shuffle(_options)
-#     return _options
+@registerCommand(
+    "shuffle",
+    "リストをシャッフルします。",
+    options=[
+        {
+            "name": "options",
+            "description": "カンマ区切りのリスト。例: `a,b,c`",
+            "type": OptionType.STRING,
+            "required": True,
+        }
+    ],
+)
+def shuffle(body: RequestBody[tuple[BodyOption[str]]]) -> ResponseBody:
+    options = body["data"]["options"][0]["value"].split(",")
+    random.shuffle(options)
+
+    result = ", ".join(options)
+    return {
+        "type": InteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
+        "data": {"content": f"Result: {result}"},
+    }
+
 
 # export DiscordCommands
 from discord_types import DiscordCommands  # noqa
