@@ -80,12 +80,15 @@ def randint(
 )
 def shuffle(body: RequestBody[tuple[BodyOption[str]]]) -> ResponseBody:
     options = body["data"]["options"][0]["value"].split(",")
+
+    content = f"入力: {', '.join(options)}\n"
+
     random.shuffle(options)
 
-    result = ", ".join(options)
+    content += f"結果: {', '.join(options)}"
     return {
         "type": InteractionType.CHANNEL_MESSAGE_WITH_SOURCE,
-        "data": {"content": f"Result: {result}"},
+        "data": {"content": content},
     }
 
 
